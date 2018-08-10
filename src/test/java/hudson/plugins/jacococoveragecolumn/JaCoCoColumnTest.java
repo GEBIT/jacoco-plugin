@@ -4,9 +4,9 @@ import hudson.model.BuildListener;
 import hudson.model.Descriptor.FormException;
 import hudson.model.Job;
 import hudson.model.Run;
-import hudson.plugins.jacoco.JacocoBuildAction;
-import hudson.plugins.jacoco.model.Coverage;
-import hudson.plugins.jacoco.model.CoverageElement.Type;
+import hudson.plugins.jacocotransition.JacocoIntegrityTrendTransitionBuildAction;
+import hudson.plugins.jacocotransition.model.Coverage;
+import hudson.plugins.jacocotransition.model.CoverageElement.Type;
 import hudson.search.QuickSilver;
 import hudson.util.StreamTaskListener;
 import net.sf.json.JSONObject;
@@ -74,7 +74,7 @@ public class JaCoCoColumnTest {
 			public MyRun getLastSuccessfulBuild() {
 				try {
 				    MyRun newBuild = newBuild();
-					newBuild.addAction(new JacocoBuildAction(null, null, StreamTaskListener.fromStdout(), null, null));
+					newBuild.addAction(new JacocoIntegrityTrendTransitionBuildAction(null, null, StreamTaskListener.fromStdout(), null, null));
 					assertEquals(1, newBuild.getAllActions().size());
 					return newBuild;
 				} catch (IOException e) {
@@ -184,7 +184,7 @@ public class JaCoCoColumnTest {
 			try {
 				MyRun run = newBuild();
 				Map<Type, Coverage> map = Collections.emptyMap();
-				run.addAction(new JacocoBuildAction(map, null, listener, null, null));
+				run.addAction(new JacocoIntegrityTrendTransitionBuildAction(map, null, listener, null, null));
 				return run;
 			} catch (IOException e) {
 				throw new IllegalStateException(e);

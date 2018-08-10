@@ -1,0 +1,9 @@
+<?jelly escape-by-default='true'?>
+<div>
+<div>
+  <img src="graphActivity" width="400" height="200"/>
+</div>
+<div>
+  <img src="graphTransition" width="400" height="200"/>
+</div>
+</div>

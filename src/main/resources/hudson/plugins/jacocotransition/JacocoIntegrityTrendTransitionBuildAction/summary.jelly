@@ -1,0 +1,18 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler"
+	xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson"
+	xmlns:f="/lib/form" xmlns:i="jelly:fmt">
+	<link rel="stylesheet" href="${rootURL}/plugin/jacocotransition/css/style.css"/>
+	<t:summary icon="/plugin/jacocotransition/icons/jacoco-48x48.png">
+	 	<b>Trend Transitions - ${%Overall Coverage Summary for Integrity Tests}</b>
+	 	<table class="pane" border="1" style="width: 95%;margin-left: 5%;">
+	 		<j:forEach var="coverageRatio" items="${it.coverageRatios}">
+	 		<tr>
+	 			<th style="background-color:#e0e0e0;width:30%">${coverageRatio.key.trendType}</th>
+	 			<td style="width:15%;text-align:center" class="${coverageRatio.value ? 'red':''}">${coverageRatio.key.percentage}%</td>
+	 			<td><div class="percentgraph" style="background-color:${coverageRatio.key.coveredStyle};"><div style="width:${100 - coverageRatio.key.percentage}%; background-color:${coverageRatio.key.missedStyle};" class="percentgraph"></div></div></td>
+	 		</tr>
+	 		</j:forEach>
+	 	</table>		
+	</t:summary>
+</j:jelly>

@@ -4,8 +4,8 @@ import hudson.Extension;
 import hudson.model.Descriptor;
 import hudson.model.Job;
 import hudson.model.Run;
-import hudson.plugins.jacoco.JacocoBuildAction;
-import hudson.plugins.jacoco.model.Coverage;
+import hudson.plugins.jacocotransition.JacocoIntegrityTrendTransitionBuildAction;
+import hudson.plugins.jacocotransition.model.Coverage;
 import hudson.views.ListViewColumnDescriptor;
 import hudson.views.ListViewColumn;
 
@@ -33,7 +33,7 @@ public class JaCoCoColumn extends ListViewColumn {
 	public boolean hasCoverage(final Job<?, ?> job) {
 		final Run<?, ?> lastSuccessfulBuild = job.getLastSuccessfulBuild();
 		return lastSuccessfulBuild != null &&
-				lastSuccessfulBuild.getAction(JacocoBuildAction.class) != null;
+				lastSuccessfulBuild.getAction(JacocoIntegrityTrendTransitionBuildAction.class) != null;
 	}
 
 	public String getPercent(final Job<?, ?> job) {
@@ -98,8 +98,8 @@ public class JaCoCoColumn extends ListViewColumn {
 			return 0f;
 		}
 
-		final JacocoBuildAction action = lastSuccessfulBuild
-				.getAction(JacocoBuildAction.class);
+		final JacocoIntegrityTrendTransitionBuildAction action = lastSuccessfulBuild
+				.getAction(JacocoIntegrityTrendTransitionBuildAction.class);
 
 		if(action == null) {
 			return 0f;

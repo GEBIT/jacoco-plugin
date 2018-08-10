@@ -1,0 +1,9 @@
+<?jelly escape-by-default='true'?>
+<div>
+<div>
+  <img src="graph" width="400" height="200"/>
+</div>
+<div>
+  <img src="graph2" width="400" height="200"/>
+</div>
+</div>

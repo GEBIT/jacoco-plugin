@@ -33,6 +33,8 @@ div.percentgraph {
  /* width: 100px;*/
 }
 
+
+
 div.percentgraph div.greenbar {
   background-color: #80ff80;
   height: 1.3em;
@@ -45,6 +47,8 @@ div.percentgraph div.redbar {
   margin: 0px;
   padding: 0px;
 }
+
+
 
 div.percentgraph div.na {
   background-color: #eaeaea;

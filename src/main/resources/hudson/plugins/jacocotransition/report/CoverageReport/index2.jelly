@@ -1,0 +1,22 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+  <l:layout xmlns:e="/hudson/plugins/jacocotransition/tags" norefresh="true" css="/plugin/jacocotransition/css/style.css">
+    <st:include it="${it.build}" page="sidepanel.jelly" />
+    <l:main-panel>
+      <h2>${%Workflow,Activity and Transition Coverage}</h2>
+      <div>
+        <img src="${imagesURL}/24x24/save.png" />
+
+        <a href="jacoco.exec">Download <tt>jacoco.exec</tt> binary coverage file</a>
+      </div>
+
+      <e:floatingTrendGraph/>
+
+      <h3>${%Overall Workflow,Activity and Transition Coverage Summary}</h3>
+      <e:summaryTableWorkflow title="${%All Workflows}"/>
+
+      <h3>${%Coverage Breakdown by Workflow}</h3>
+      <e:breakdownTableWorkflow />
+    </l:main-panel>
+  </l:layout>
+</j:jelly>

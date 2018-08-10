@@ -1,0 +1,14 @@
+<?jelly escape-by-default='true'?>
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:e="/hudson/plugins/jacocotransition/tags">
+ <j:if test="${it.hasChildren()}">
+  <tr>
+    <th style="background-color:#e0e0e0;">${%activity name}</th>
+    <th style="background-color:#e0e0e0;">${%workflow coverage}</th>
+	
+    <j:if test="${it.hasChildrenClassCoverage()}">
+      <th style="background-color:#e0e0e0;">${%activity coverage}</th>
+    </j:if>
+    <th style="background-color:#e0e0e0;">${%transition coverage}</th>
+  </tr>
+ </j:if>  
+</j:jelly>
