@@ -17,23 +17,16 @@ public class ClassAnalyzerAnnotation extends ClassAnalyzer {
 	
 
 	public ClassAnalyzerAnnotation(ClassCoverageImpl coverage, boolean[] probes, StringPool stringPool) {
-		
-		super(coverage, probes, stringPool);
-		System.err.println("new ClassAnalyzerAnnotation!! "+coverage.getClass()+" "+coverage);
+		super(coverage, probes, stringPool);	
 	}
 	
 	
 	public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
-		System.err.println("ClassAnalyzerAnnotation visit Annotation (callsuper)!!====>"+desc+" "+visible);
-		
-
-		AnnotationVisitor xx = super.visitAnnotation(desc, visible);
-		System.err.println("ClassAnalyzerAnnotation annotaion visited="+xx.getClass()+" "+xx.toString());
-		return xx;
+		AnnotationVisitor annoVistor = super.visitAnnotation(desc, visible);
+		return annoVistor;
 	}
 
 	public AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String desc, boolean visible) {
-		System.err.println("!!!====>"+desc+" "+visible+" "+typePath.toString());
 		return super.visitTypeAnnotation(typeRef, typePath, desc, visible);
 	}
 
@@ -43,7 +36,6 @@ public class ClassAnalyzerAnnotation extends ClassAnalyzer {
 
 	public MethodProbesVisitor visitMethod(int access, String name, String desc, String signature,
 			String[] exceptions) {
-		System.err.println("ClassAnalyzerAnnotation: call Super for visitMethod "+name);
 		return super.visitMethod(access, name, desc, signature, exceptions);
 		
 	}

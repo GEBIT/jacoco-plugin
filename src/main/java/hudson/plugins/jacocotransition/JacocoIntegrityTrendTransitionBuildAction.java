@@ -287,10 +287,7 @@ public final class JacocoIntegrityTrendTransitionBuildAction extends CoverageObj
 			
 		}
 		
-		for(Entry<Coverage, Boolean> e : ratios.entrySet()) {
-			Coverage cov = e.getKey();
-			System.err.println(e.getValue()+"====>"+cov.getType()+"  "+cov.getTotal()+" "+cov.getCovered()+" "+cov.getMissed());
-		}
+		
 		
 		return ratios;
 	}
