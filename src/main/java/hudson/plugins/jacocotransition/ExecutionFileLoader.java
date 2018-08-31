@@ -23,7 +23,6 @@ import org.jacoco.maven.FileFilter;
 import hudson.FilePath;
 import hudson.plugins.jacocotransition.annotation.BundleMapper;
 import hudson.plugins.jacocotransition.refine.AnalyzerAnnotation;
-//import hudson.plugins.jacocotransition.refine.CoverageBuilderAnno;
 
 
 public class ExecutionFileLoader implements Serializable {
@@ -104,6 +103,14 @@ public class ExecutionFileLoader implements Serializable {
 			}
 		}
 		
+		public boolean classDirExists(){
+			try {
+			File classDirectory = new File(classDir.getRemote());
+			return classDirectory.exists();
+			} catch (Exception e) {
+				return false;
+			}
+		}
 		
 	    private IBundleCoverage analyzeStructure() throws IOException {
 	    	
@@ -112,13 +119,6 @@ public class ExecutionFileLoader implements Serializable {
 			
 			final CoverageBuilder coverageBuilder = new CoverageBuilder();
 			
-			//final CoverageBuilder coverageBuilder = new CoverageBuilderAnno();
-			//final Analyzer analyzer = new Analyzer(executionDataStore,
-			//		coverageBuilder);
-			
-			/*
-			final CoverageBuilderAnnotation coverageBuilder = new CoverageBuilderAnnotation();
-			*/
 			final AnalyzerAnnotation analyzer = new AnalyzerAnnotation(executionDataStore,
 					coverageBuilder,map);
 		
@@ -137,7 +137,7 @@ public class ExecutionFileLoader implements Serializable {
 
 			final FileFilter fileFilter = new FileFilter(Arrays.asList(includes), Arrays.asList(excludes));
 			try {
-				final List<File> filesToAnalyze = FileUtils.getFiles(classDirectory, fileFilter.getIncludes(), fileFilter.getExcludes());
+				final List<File> filesToAnalyze = classDirectory.exists() ? FileUtils.getFiles(classDirectory, fileFilter.getIncludes(), fileFilter.getExcludes()): new ArrayList<>() ;
 				for (final File file : filesToAnalyze) {
 					//System.err.println(name+"XXXANA =====>"+file.getCanonicalPath());
 					analyzer.analyzeAll(file);

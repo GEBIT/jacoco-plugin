@@ -587,19 +587,19 @@ public class JacocoIntegrityTrendTransitionPublisher extends Recorder implements
         }
 
         final PrintStream logger = taskListener.getLogger();
-        logger.println("[JaCoCo plugin] Collecting JaCoCo coverage data...");
+        logger.println("[JaCoCo transition plugin] Collecting JaCoCo coverage data...");
 
         if ((execPattern==null) || (classPattern==null) || (sourcePattern==null)) {
             if(run.getResult().isWorseThan(Result.UNSTABLE)) {
                 return;
             }
 
-            logger.println("[JaCoCo plugin] ERROR: Missing configuration!");
+            logger.println("[JaCoCo transition plugin] ERROR: Missing configuration!");
             run.setResult(Result.FAILURE);
             return;
         }
 
-        logger.println("[JaCoCo plugin] " + execPattern + ";" + classPattern +  ";" + sourcePattern + ";" + " locations are configured");
+        logger.println("[JaCoCo transition plugin] " + execPattern + ";" + classPattern +  ";" + sourcePattern + ";" + " locations are configured");
 
         JacocoReportDir reportDir = new JacocoReportDir(run.getRootDir());
 
@@ -608,65 +608,65 @@ public class JacocoIntegrityTrendTransitionPublisher extends Recorder implements
         }
 
         List<FilePath> matchedExecFiles = Arrays.asList(filePath.list(resolveFilePaths(run, taskListener, execPattern, env)));
-        logger.println("[JaCoCo plugin] Number of found exec files for pattern " + execPattern + ": " + matchedExecFiles.size());
-        logger.print("[JaCoCo plugin] Saving matched execfiles: ");
+        logger.println("[JaCoCo transition plugin] Number of found exec files for pattern " + execPattern + ": " + matchedExecFiles.size());
+        logger.print("[JaCoCo transition plugin] Saving matched execfiles: ");
         reportDir.addExecFiles(matchedExecFiles);
         logger.print(" " + Util.join(matchedExecFiles," "));
         FilePath[] matchedClassDirs = resolveDirPaths(filePath, taskListener, classPattern);
-        logger.print("\n[JaCoCo plugin] Saving matched class directories for class-pattern: " + classPattern + ": ");
-        final String warning = "\n[JaCoCo plugin] WARNING: You are using directory patterns with trailing /, /* or /** . This will most likely" +
+        logger.print("\n[JaCoCo transition plugin] Saving matched class directories for class-pattern: " + classPattern + ": ");
+        final String warning = "\n[JaCoCo transition plugin] WARNING: You are using directory patterns with trailing /, /* or /** . This will most likely" +
                 " multiply the copied files in your build directory. Check the list below and ignore this warning if you know what you are doing.";
         if (hasSubDirectories(classPattern)) {
             logger.print(warning);
         }
         for (FilePath dir : matchedClassDirs) {
             int copied = reportDir.saveClassesFrom(dir, "**/*.class");
-            logger.print("\n[JaCoCo plugin]  - " + dir + " " + copied + " files");
+            logger.print("\n[JaCoCo transition plugin]  - " + dir + " " + copied + " files");
         }
 
         // Use skipCopyOfSrcFiles flag to determine if the source files should be copied or skipped. If skipped display appropriate logger message.
         if(!this.skipCopyOfSrcFiles) {
             FilePath[] matchedSrcDirs = resolveDirPaths(filePath, taskListener, sourcePattern);
-            logger.print("\n[JaCoCo plugin] Saving matched source directories for source-pattern: " + sourcePattern + ": ");
-            logger.print("\n[JaCoCo plugin] Source Inclusions: " + sourceInclusionPattern);
-            logger.print("\n[JaCoCo plugin] Source Exclusions: " + sourceExclusionPattern);
+            logger.print("\n[JaCoCo transition plugin] Saving matched source directories for source-pattern: " + sourcePattern + ": ");
+            logger.print("\n[JaCoCo transition plugin] Source Inclusions: " + sourceInclusionPattern);
+            logger.print("\n[JaCoCo transition plugin] Source Exclusions: " + sourceExclusionPattern);
             if (hasSubDirectories(sourcePattern)) logger.print(warning);
             for (FilePath dir : matchedSrcDirs) {
                 int copied = reportDir.saveSourcesFrom(dir, sourceInclusionPattern, sourceExclusionPattern);
-                logger.print("\n[JaCoCo plugin] - " + dir + " " + copied + " files");
+                logger.print("\n[JaCoCo transition plugin] - " + dir + " " + copied + " files");
             }
         }
         else{
-            logger.print("\n[JaCoCo plugin] Skipping save of matched source directories for source-pattern: " + sourcePattern);
+            logger.print("\n[JaCoCo transition plugin] Skipping save of matched source directories for source-pattern: " + sourcePattern);
         }
 
-        logger.println("\n[JaCoCo plugin] Loading inclusions files..");
+        logger.println("\n[JaCoCo transition plugin] Loading inclusions files..");
         String[] includes = {};
         if (inclusionPattern != null) {
             String expandedInclusion = env.expand(inclusionPattern);
             includes = expandedInclusion.split(DIR_SEP);
-            logger.println("[JaCoCo plugin] inclusions: " + Arrays.toString(includes));
+            logger.println("[JaCoCo transition plugin] inclusions: " + Arrays.toString(includes));
         }
         String[] excludes = {};
         if (exclusionPattern != null) {
             String expandedExclusion = env.expand(exclusionPattern);
             excludes = expandedExclusion.split(DIR_SEP);
-            logger.println("[JaCoCo plugin] exclusions: " + Arrays.toString(excludes));
+            logger.println("[JaCoCo transition plugin] exclusions: " + Arrays.toString(excludes));
         }
 
         final JacocoIntegrityTrendTransitionBuildAction action = JacocoIntegrityTrendTransitionBuildAction.load(run, healthReports, taskListener, reportDir, includes, excludes);
         action.getThresholds().ensureValid();
-        logger.println("[JaCoCo plugin] Thresholds: " + action.getThresholds());
+        logger.println("[JaCoCo transition plugin] Thresholds: " + action.getThresholds());
         run.addAction(action);
 
-        logger.println("[JaCoCo plugin] Publishing the results..");
+        logger.println("[JaCoCo transition plugin] Publishing the results..");
         final CoverageReport result = action.getResult();
 
         if (result == null) {
-            logger.println("[JaCoCo plugin] Could not parse coverage results. Setting Build to failure.");
+            logger.println("[JaCoCo transition plugin] Could not parse coverage results. Setting Build to failure.");
             run.setResult(Result.FAILURE);
         } else {
-            logger.println("[JaCoCo plugin] Overall coverage: class: " + result.getClassCoverage().getPercentage()
+            logger.println("[JaCoCo transition plugin] Overall coverage: class: " + result.getClassCoverage().getPercentage()
                     + ", method: " + result.getMethodCoverage().getPercentage()
                     + ", line: " + result.getLineCoverage().getPercentage()
                     + ", branch: " + result.getBranchCoverage().getPercentage()
@@ -679,13 +679,13 @@ public class JacocoIntegrityTrendTransitionPublisher extends Recorder implements
             Result applyMinMaxTh = Result.SUCCESS, applyDeltaTh = Result.SUCCESS;
             if (changeBuildStatus) {
                 applyMinMaxTh = checkResult(action); // Compare current coverage with minimum and maximum coverage thresholds
-                logger.println("[JaCoCo plugin] Health thresholds: "+ healthReports.toString());
-                logger.println("[JaCoCo plugin] Apply Min/Max thresholds result: "+ applyMinMaxTh.toString());
+                logger.println("[JaCoCo transition plugin] Health thresholds: "+ healthReports.toString());
+                logger.println("[JaCoCo transition plugin] Apply Min/Max thresholds result: "+ applyMinMaxTh.toString());
             }
             if(buildOverBuild){
                 applyDeltaTh = checkBuildOverBuildResult(run, logger); // Compute delta coverage of current build and compare with delta thresholds
-                logger.println("[JaCoCo plugin] Delta thresholds: " + deltaHealthReport.toString());
-                logger.println("[JaCoCo plugin] Results of delta thresholds check: "+ applyDeltaTh.toString());
+                logger.println("[JaCoCo transition plugin] Delta thresholds: " + deltaHealthReport.toString());
+                logger.println("[JaCoCo transition plugin] Results of delta thresholds check: "+ applyDeltaTh.toString());
             }
             if(changeBuildStatus || buildOverBuild) {
                 run.setResult(Utils.applyLogicalAnd(applyMinMaxTh, applyDeltaTh));
@@ -750,7 +750,7 @@ public class JacocoIntegrityTrendTransitionPublisher extends Recorder implements
     public Result checkBuildOverBuildResult(Run<?,?> run, PrintStream logger){
 
         JacocoDeltaCoverageResultSummary deltaCoverageResultSummary = JacocoDeltaCoverageResultSummary.build(run);
-        logger.println("[JaCoCo plugin] Delta coverage: class: " + deltaCoverageResultSummary.getClassCoverage()
+        logger.println("[JaCoCo transition plugin] Delta coverage: class: " + deltaCoverageResultSummary.getClassCoverage()
                 + ", method: " + deltaCoverageResultSummary.getMethodCoverage()
                 + ", line: " + deltaCoverageResultSummary.getLineCoverage()
                 + ", branch: " + deltaCoverageResultSummary.getBranchCoverage()

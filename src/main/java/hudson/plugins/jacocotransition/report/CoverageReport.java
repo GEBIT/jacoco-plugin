@@ -62,9 +62,9 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
 	 */
 	public CoverageReport(JacocoIntegrityTrendTransitionBuildAction action, @Nonnull ExecutionFileLoader executionFileLoader ) {
 		this(action);
-		action.getLogger().println("[JaCoCo plugin] Loading packages..");
+		action.getLogger().println("[JaCoCo transition plugin] Loading packages..");
 
-		if (executionFileLoader.getBundleCoverage() !=null ) {
+		if (executionFileLoader.getBundleCoverage() !=null && executionFileLoader.classDirExists()) {
 			setAllCovTypes(this, executionFileLoader.getBundleCoverage());
 
 			ArrayList<IPackageCoverage> packageList = new ArrayList<>(executionFileLoader.getBundleCoverage().getPackages());
@@ -88,13 +88,6 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
 
 					ArrayList<IMethodCoverage> methodList = new ArrayList<>(classCov.getMethods());
 					for (IMethodCoverage methodCov: methodList) {
-						if (false && methodCov.getName().endsWith("<init>")) {
-							
-							ICounter counter = methodCov.getMethodCounter();
-							String info = counter.getCoveredCount()+"/"+counter.getMissedCount();
-							
-							System.err.println(">skipping init +(C/M) "+info+"  class="+classCov.getName()+" "+methodCov.getClass()+" "+classCov.getClass());
-						  } else {
 							  
 						MethodReport methodReport = new MethodReport();
 						methodReport.setName(getMethodName(classCov, methodCov));
@@ -103,7 +96,7 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
 						methodReport.setSrcFileInfo(methodCov);
 						//System.err.println("><"+packageCov.getName()+"><"+classCov.getName()+"><"+getMethodName(classCov, methodCov)+" ("+methodCov.getName()+")");
 						classReport.add(methodReport);
-						  }
+						  
 					}
 
 					packageReport.add(classReport);
@@ -112,13 +105,13 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
 				this.add(packageReport);
 			}
 		}
-		action.getLogger().println("[JaCoCo plugin] Done.");
+		action.getLogger().println("[JaCoCo transition plugin] Done.");
 	}
 
 	
 	public CoverageReport(JacocoIntegrityTrendTransitionBuildAction action, @Nonnull ExecutionFileLoader executionFileLoader ,Object _) {
 		this(action);
-		action.getLogger().println("[JaCoCo plugin] Loading packages..");
+		action.getLogger().println("[JaCoCo transition plugin] Loading packages..");
 
 		if (executionFileLoader.getBundleCoverage() !=null ) {
 			setAllCovTypes(this, executionFileLoader.getBundleCoverage());
@@ -161,7 +154,7 @@ public final class CoverageReport extends AggregatedReport<CoverageReport/*dummy
 				this.add(packageReport);
 			}
 		}
-		action.getLogger().println("[JaCoCo plugin] Done.");
+		action.getLogger().println("[JaCoCo transition plugin] Done.");
 	}
 
     /**
