@@ -18,3 +18,17 @@ How to build and test
 `mvn hpi:run`
 
 See https://jenkinsci.github.io/maven-hpi-plugin/ for details.
+
+Hosting
+=====================
+The project is hosted at github: https://github.com/GEBIT/jacoco-plugin
+
+
+New Releases
+=====================
+A release is identified by a git tag. The rest is done with github: https://help.github.com/articles/creating-releases/
+Don't forget to upload the hpi artifact to the release. 
+
+
+
+
