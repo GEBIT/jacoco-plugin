@@ -36,7 +36,7 @@ public class BundleMapper extends Mapper implements IBundleCoverage {
 		if (packageList == null) {
 			packageList = new ArrayList<>();
 			for (IPackageCoverage ic : cov.getPackages()) {
-				if (!"de/gebit/pos/test/transitioncoverage/jacoco/generated".equals(ic.getName())) {
+				if (!"de/gebit/ep/transitioncoverage/csv2jacoco/generated".equals(ic.getName())) {
 					packageList.add(new PackageCoverageMapper(ic, map));
 				}
 			}

@@ -33,7 +33,7 @@ THE SOFTWARE.
    </parent>
 
    <artifactId>jacocotransition</artifactId>
-   <version>3.0.1-gebit3-SNAPSHOT</version>
+   <version>3.0.1-gebit3</version>
    <packaging>hpi</packaging>
 
    <name>TREND Transition Coverage Jenkins plugin (based on JaCoCo)</name>
